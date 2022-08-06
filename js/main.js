@@ -10,10 +10,14 @@ screen.width = window.innerWidth * 9.8 /10;
 screen.height = window.innerHeight * 9.4/10;
 const ctx = screen.getContext('2d')
 
+var SelectedIndex = -1;
+
 button.onclick = function () {
     var e = document.getElementById("menu").value;
     console.log(e);
-    algorithms[menu.value].Animate(ctx)
+    SelectedIndex = e;
+    Visualize();
+
 };
  
  
@@ -44,11 +48,33 @@ function SetAlgorithms()
  
 }
 
+  function clear() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  }
+function Visualize()
+{
+    for (var i = 0; i < algorithms.length; i++)
+    {
+        if (i == SelectedIndex) {
+          // algorithm is running
+          console.log("vusya");
+          clear();
+          algorithms[i].RunAlgorithm(); // changes stuff
+
+          algorithms[i].DrawScene(); // draws stuff
+        }    
+    }
+
+    requestAnimationFrame(Visualize);
+
+}
+
+
  
 
 SetAlgorithms();
 AddAlgosToCombo();
-
+requestAnimationFrame(Visualize);
 
 
 
